@@ -7,10 +7,10 @@ pub enum Player {
 }
 
 impl Player {
-    pub fn switch(&self) -> Self {
-        match self {
-            Player::X => Player::O,
-            Player::O => Player::X,
+    pub fn switch(&mut self) {
+        match *self {
+            Player::X => *self = Player::O,
+            Player::O => *self = Player::X,
         }
     }
 }

@@ -1,9 +1,10 @@
 #![allow(dead_code)]
+use crate::Player;
 
 pub enum GameStatus {
     Ongoing,
-    XWins,
-    OWins,
-    Draw
+    Winner(Player),
+    Tie,
 }
+
 

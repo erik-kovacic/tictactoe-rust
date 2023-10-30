@@ -1,4 +1,5 @@
 use crate::Player;
+use crate::GameStatus;
 use std::io;
 
 pub struct Board {
@@ -56,7 +57,17 @@ impl Board {
         }
     }
 
-    pub fn has_winner(&self) -> Option<Player> {
+    pub fn check_game_status(&self) -> GameStatus {
+        if let Some(winner) = self.has_winner() {
+            GameStatus::Winner(winner)
+        } else if self.is_full() {
+            GameStatus::Tie
+        } else {
+            GameStatus::Ongoing
+        }
+    }
+
+    fn has_winner(&self) -> Option<Player> {
         for i in 0..3 {
             if let Some(player) = self.check_line(self.grid[i][0], self.grid[i][1], self.grid[i][2]) {
                 return Some(player);
