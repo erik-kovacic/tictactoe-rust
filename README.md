@@ -9,6 +9,7 @@ This repository contains the implementation of the classic game TicTacToe, devel
 1. Clone the repository
 2. Navigate to the project directory
 3. Build the project with "cargo build" command.
+4. Start the game with "cargo run" comman.
 
 ## How to Play
 
