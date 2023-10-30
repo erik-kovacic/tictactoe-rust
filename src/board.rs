@@ -14,12 +14,18 @@ impl Board {
     }
 
     pub fn display_board(&self) {
-        for row in &self.grid {
+        for (i, row) in self.grid.iter().enumerate() {
+            if i > 0 {
+                println!("-----------");
+            }
             for cell in row {
                 match cell {
                     Some(Player::X) => print!(" X "),
                     Some(Player::O) => print!(" O "),
                     None => print!(" - "),
+                }
+                if cell != row.last().unwrap() {
+                    print!("|");
                 }
             }
             println!()
