@@ -1,5 +1,8 @@
 #![allow(dead_code)]
 #[derive(Copy, Clone)]
+#[derive(Debug)]
+#[derive(Debug, PartialEq)]
+
 pub enum Player {
     X, O
 }

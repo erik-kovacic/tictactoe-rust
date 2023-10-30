@@ -11,5 +11,19 @@ fn main() {
     let mut _current_player = Player::X;
     let mut _game_status = GameStatus::Ongoing;
 
-    _board.display_board()
+    
+    loop {
+        _board.display_board();
+        _board.make_move(_current_player);
+
+        if let Some(winner) = _board.has_winner() {
+            println!("{:?} is the winner!", winner);
+            break;
+        } else if _board.is_full() {
+            println!("It's a tie!");
+            break;
+        }
+        
+        _current_player.switch(); 
+    }
 }
