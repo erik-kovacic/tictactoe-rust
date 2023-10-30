@@ -14,21 +14,19 @@ impl Board {
     }
 
     pub fn display_board(&self) {
-        for (i, row) in self.grid.iter().enumerate() {
-            if i > 0 {
-                println!("-----------");
-            }
+        println!("+---+---+---+");
+        for row in &self.grid {
+            print!("|");
             for cell in row {
                 match cell {
                     Some(Player::X) => print!(" X "),
                     Some(Player::O) => print!(" O "),
-                    None => print!(" - "),
+                    None => print!("   "),
                 }
-                if cell != row.last().unwrap() {
-                    print!("|");
-                }
+                print!("|");
             }
-            println!()
+            println!();
+            println!("+---+---+---+");
         }
     }
 
@@ -74,28 +72,32 @@ impl Board {
     }
 
     fn has_winner(&self) -> Option<Player> {
-        for i in 0..3 {
-            if let Some(player) = self.check_line(self.grid[i][0], self.grid[i][1], self.grid[i][2]) {
-                return Some(player);
+        for row in &self.grid {
+            if let Some(&first) = row.first() {
+                if row.iter().all(|&cell| cell == first) {
+                    return first;
+                }
             }
-            if let Some(player) = self.check_line(self.grid[0][i], self.grid[1][i], self.grid[2][i]) {
-                return Some(player);
-            } 
         }
-        if let Some(player) = self.check_line(self.grid[0][0], self.grid[1][1], self.grid[2][2]) {
-            return Some(player);
-        }
-        if let Some(player) = self.check_line(self.grid[0][2], self.grid[1][1], self.grid[2][0]) {
-            return Some(player);
-        }
-        None
-    }
 
-    fn check_line(&self, cell1: Option<Player>, cell2: Option<Player>, cell3: Option<Player>) -> Option<Player> {
-        match (cell1, cell2, cell3) {
-            (Some(player1), Some(player2), Some(player3)) if player1 == player2 && player2 == player3 => Some(player1),
-            _ => None,
+        for col in 0..3 {
+            let first = self.grid[0][col];
+            if self.grid.iter().all(|&row| row[col] == first) {
+                return first;
+            }
         }
+
+        let main_diag = self.grid[0][0];
+        if (1..3).all(|i| self.grid[i][i] == main_diag) {
+            return main_diag;
+        }
+
+        let anti_diag = self.grid[0][2];
+        if (1..3).all(|i| self.grid[i][2 - i] == anti_diag) {
+            return anti_diag;
+        }
+
+        None
     }
 
     pub fn is_full(&self) -> bool {
